@@ -1,0 +1,39 @@
+{% extends 'gestion/base.html' %}
+{% block title %}Lista de Libros{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-journal-bookmark"></i> Libros</h2>
+    <a href="{% url 'crear_libro' %}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Nuevo Libro</a>
+</div>
+<div class="card">
+    <div class="card-body">
+        {% if libros %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr><th>#</th><th>Título</th><th>Género</th><th>Fecha Pub.</th><th>Autor</th><th>ISBN</th><th>Acciones</th></tr>
+                </thead>
+                <tbody>
+                    {% for libro in libros %}
+                    <tr>
+                        <td>{{ libro.id }}</td>
+                        <td><strong>{{ libro.titulo }}</strong></td>
+                        <td>{{ libro.genero }}</td>
+                        <td>{{ libro.fecha_publicacion|date:"d/m/Y" }}</td>
+                        <td>{{ libro.autor.nombre }}</td>
+                        <td>{{ libro.isbn }}</td>
+                        <td>
+                            <a href="{% url 'editar_libro' libro.pk %}" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil"></i></a>
+                            <a href="{% url 'eliminar_libro' libro.pk %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5"><i class="bi bi-journal-bookmark" style="font-size:3rem;color:#ccc;"></i><p class="text-muted">No hay libros registrados.</p><a href="{% url 'crear_libro' %}" class="btn btn-primary">Crear primer libro</a></div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
